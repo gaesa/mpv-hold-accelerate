@@ -26,9 +26,10 @@ cp dist/hold-accelerate.js ~/.config/mpv/scripts
 
 ## Usage
 
-By default, the `=` key is assigned to the `hold-accelerate@fast`, which temporarily increases the playback speed to `2.5`. Conversely, the `-` key is assigned to the `hold-accelerate@slow` function, which temporarily reduces the playback speed to `0.5`. You can overwrite these keybindings, and add your own keybindings, as shown in the example below:
+By default, the `=` key is assigned to the `hold-accelerate@fast`, which temporarily increases the playback speed to `2.5`. Conversely, the `-` key is assigned to the `hold-accelerate@slow`, which temporarily reduces the playback speed to `0.5`. You can overwrite these keybindings, and add your own keybindings, as shown in the example below:
 
 ```
+# ~/.config/mpv/input.conf
 - ignore
 = ignore
 LEFT script-binding hold-accelerate@slow
