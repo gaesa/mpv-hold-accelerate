@@ -4,7 +4,7 @@ namespace Config {
     decayDelay,
     mp.get_property_native("osd-duration") / 1000,
   );
-  export const fastSpeed: number = 2.5;
+  export const fastSpeed: number = 2.5; // a higher value like `3` is more likely to cause `Audio/Video desynchronisation`
   export const slowSpeed: number = 0.5;
 }
 
