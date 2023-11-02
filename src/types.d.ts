@@ -1,2 +1,2 @@
 declare var mp: any;
-declare var dump: (arg: any) => string;
+declare var dump: (arg: any) => void;
