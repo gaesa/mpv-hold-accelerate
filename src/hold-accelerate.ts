@@ -1,4 +1,4 @@
-namespace config {
+namespace Config {
   const decayDelay: number = 0.05;
   export const osdDuration: number = Math.max(
     decayDelay,
@@ -24,10 +24,10 @@ function makePlayFn(speedValue: number) {
     if (table.event === "down" || table.event === "repeat") {
       SpeedPlay.isPlaying = true;
       mp.set_property("speed", speedValue);
-      mp.osd_message(`>> x${speedValue.toFixed(2)}`, config.osdDuration);
+      mp.osd_message(`>> x${speedValue.toFixed(2)}`, Config.osdDuration);
     } else if (table.event === "up") {
       mp.set_property("speed", SpeedPlay.prevSpeed);
-      mp.osd_message(`${SpeedPlay.prevSpeed.toFixed(2)}x`, config.osdDuration);
+      mp.osd_message(`${SpeedPlay.prevSpeed.toFixed(2)}x`, Config.osdDuration);
       SpeedPlay.isPlaying = false;
     } else {
       return;
@@ -43,11 +43,11 @@ mp.observe_property("speed", "number", (_: string, value: number) => {
   }
 });
 
-mp.add_key_binding("=", "hold-accelerate@fast", makePlayFn(config.fastSpeed), {
+mp.add_key_binding("=", "hold-accelerate@fast", makePlayFn(Config.fastSpeed), {
   complex: true,
   repeatable: false,
 });
-mp.add_key_binding("-", "hold-accelerate@slow", makePlayFn(config.slowSpeed), {
+mp.add_key_binding("-", "hold-accelerate@slow", makePlayFn(Config.slowSpeed), {
   complex: true,
   repeatable: false,
 });
