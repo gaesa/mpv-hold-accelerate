@@ -2,7 +2,7 @@
 
 ## Features
 
-- **Hold-On**: Users can temporarily change the playback speed by holding a certain key. The speed returns to normal once the key is released.
+- **Hold-On**: Users can temporarily change the playback speed by holding a certain key. The speed is restored as before once the key is released.
 
 ## Requirements
 
