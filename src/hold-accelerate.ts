@@ -14,7 +14,7 @@ interface CallbackOnKey {
   key_name?: string;
 }
 
-namespace SpeedPlay {
+namespace SpeedPlayback {
   export let prevSpeed = mp.get_property_native("speed");
   export let isPlaying = false;
 }
@@ -22,13 +22,16 @@ namespace SpeedPlay {
 function makePlayFn(speedValue: number) {
   return function (table: CallbackOnKey): void {
     if (table.event === "down" || table.event === "repeat") {
-      SpeedPlay.isPlaying = true;
+      SpeedPlayback.isPlaying = true;
       mp.set_property("speed", speedValue);
       mp.osd_message(`>> x${speedValue.toFixed(2)}`, Config.osdDuration);
     } else if (table.event === "up") {
-      mp.set_property("speed", SpeedPlay.prevSpeed);
-      mp.osd_message(`${SpeedPlay.prevSpeed.toFixed(2)}x`, Config.osdDuration);
-      SpeedPlay.isPlaying = false;
+      mp.set_property("speed", SpeedPlayback.prevSpeed);
+      mp.osd_message(
+        `${SpeedPlayback.prevSpeed.toFixed(2)}x`,
+        Config.osdDuration,
+      );
+      SpeedPlayback.isPlaying = false;
     } else {
       return;
     }
@@ -36,10 +39,10 @@ function makePlayFn(speedValue: number) {
 }
 
 mp.observe_property("speed", "number", (_: string, value: number) => {
-  if (SpeedPlay.isPlaying) {
+  if (SpeedPlayback.isPlaying) {
     return;
   } else {
-    SpeedPlay.prevSpeed = value;
+    SpeedPlayback.prevSpeed = value;
   }
 });
 
