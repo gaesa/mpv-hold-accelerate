@@ -31,7 +31,7 @@ namespace SpeedPlayback {
     };
   }
 
-  let prevSpeed = mp.get_property_native("speed");
+  let prevSpeed: number = mp.get_property_native("speed");
   let isPlaying = false;
 
   mp.observe_property("speed", "number", (_: string, value: number) => {
