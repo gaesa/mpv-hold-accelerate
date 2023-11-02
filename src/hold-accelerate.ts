@@ -35,9 +35,6 @@ function makePlayFn(speedValue: number) {
   };
 }
 
-const fastPlay = makePlayFn(config.fastSpeed);
-const slowPlay = makePlayFn(config.slowSpeed);
-
 mp.observe_property("speed", "number", (_: string, value: number) => {
   if (SpeedPlay.isPlaying) {
     return;
@@ -46,11 +43,11 @@ mp.observe_property("speed", "number", (_: string, value: number) => {
   }
 });
 
-mp.add_key_binding("=", "hold-accelerate@fast", fastPlay, {
+mp.add_key_binding("=", "hold-accelerate@fast", makePlayFn(config.fastSpeed), {
   complex: true,
   repeatable: false,
 });
-mp.add_key_binding("-", "hold-accelerate@slow", slowPlay, {
+mp.add_key_binding("-", "hold-accelerate@slow", makePlayFn(config.slowSpeed), {
   complex: true,
   repeatable: false,
 });
