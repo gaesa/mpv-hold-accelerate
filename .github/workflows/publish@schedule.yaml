@@ -1,0 +1,24 @@
+name: "publish@schedule: Weekly check and possibly publish"
+
+on:
+  schedule:
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+
+jobs:
+  check-and-publish:
+    permissions:
+      contents: write
+    if: ${{ vars.SHOULD_PUBLISH == 'true' }}
+    uses: ./.github/workflows/publish.yaml
+
+  reset-publish-flag:
+    needs: check-and-publish
+    runs-on: ubuntu-latest
+    steps:
+      - if: ${{ vars.SHOULD_PUBLISH == 'true' }}
+        uses: action-pack/set-variable@v1
+        with:
+          name: "SHOULD_PUBLISH"
+          value: "false"
+          token: ${{ secrets.VARIABLE_ASSIGNMENT }}

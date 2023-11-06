@@ -1,0 +1,32 @@
+name: "publish@watcher: Monitor if need to publish"
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - src/hold-accelerate.ts
+      - .github/workflows/publish.yaml
+      - package.json
+      - package-lock.json
+  pull_request:
+    branches:
+      - main
+    paths:
+      - src/hold-accelerate.ts
+      - .github/workflows/publish.yaml
+      - package.json
+      - package-lock.json
+  workflow_dispatch:
+
+jobs:
+  update-variable:
+    runs-on: ubuntu-latest
+    steps:
+      - name: update
+        if: ${{ vars.SHOULD_PUBLISH == 'false' }}
+        uses: action-pack/set-variable@v1
+        with:
+          name: "SHOULD_PUBLISH"
+          value: "true"
+          token: ${{ secrets.VARIABLE_ASSIGNMENT }}
