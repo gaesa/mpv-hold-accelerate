@@ -15,18 +15,19 @@ namespace SpeedPlayback {
         key_name?: string;
     }
 
-    export function make(speedValue: number) {
+    function showSpeed(speed: number) {
+        mp.osd_message(`▶▶ x${speed.toFixed(1)}`, Config.osdDuration);
+    }
+
+    export function make(speed: number) {
         return (table: Input): void => {
             if (table.event === "down" || table.event === "repeat") {
                 isPlaying = true;
-                mp.set_property("speed", speedValue);
-                mp.osd_message(
-                    `>> x${speedValue.toFixed(2)}`,
-                    Config.osdDuration,
-                );
+                mp.set_property("speed", speed);
+                showSpeed(speed);
             } else if (table.event === "up") {
                 mp.set_property("speed", prevSpeed);
-                mp.osd_message(`${prevSpeed.toFixed(2)}x`, Config.osdDuration);
+                showSpeed(prevSpeed);
                 isPlaying = false;
             } else {
                 return;
