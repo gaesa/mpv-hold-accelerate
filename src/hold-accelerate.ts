@@ -1,23 +1,24 @@
 namespace Config {
-    const decayDelay = 0.05;
-    export const osdDuration = Math.max(
-        decayDelay,
-        mp.get_property_native("osd-duration", 1000) / 1000,
-    );
     export const fastSpeed = 2.5; // a higher value like `3` is more likely to cause `Audio/Video desynchronisation`
     export const slowSpeed = 0.5;
 }
 
 namespace SpeedPlayback {
+    const decayDelay = 0.05;
+    const osdDuration = Math.max(
+        decayDelay,
+        mp.get_property_native("osd-duration", 1000) / 1000,
+    );
+
+    function showSpeed(speed: number) {
+        mp.osd_message(`▶▶ x${speed.toFixed(1)}`, osdDuration);
+    }
+
     type Input = {
         event?: string;
         is_mouse?: boolean;
         key_name?: string;
     };
-
-    function showSpeed(speed: number) {
-        mp.osd_message(`▶▶ x${speed.toFixed(1)}`, Config.osdDuration);
-    }
 
     export function make(speed: number) {
         return (table: Input): void => {
