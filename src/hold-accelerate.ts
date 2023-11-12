@@ -1,3 +1,5 @@
+const msg = mp.msg;
+
 namespace Config {
     type Opts = {
         [key: string]: number;
@@ -8,6 +10,16 @@ namespace Config {
     };
 
     mp.options.read_options(opts, mp.get_script_name());
+    Object.keys(opts).forEach((key) => {
+        // https://man.archlinux.org/man/mpv.1#scaletempo2_=option1:option2:..._
+        // https://man.archlinux.org/man/mpv.1#sub~9
+        if (opts[key] > 4 || opts[key] < 0.25) {
+            msg.warn(
+                "Warning: The playback speed is outside the typical range.",
+                "The audio will be muted if the speed is below 0.25 or above 4.0",
+            );
+        }
+    });
 }
 
 namespace SpeedPlayback {
