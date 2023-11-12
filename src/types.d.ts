@@ -1,2 +1,2 @@
 declare const mp: any;
-declare const dump: (arg: any) => void;
+declare const dump: (...args: any[]) => void;
