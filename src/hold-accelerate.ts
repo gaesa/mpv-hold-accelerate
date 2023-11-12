@@ -1,6 +1,13 @@
 namespace Config {
-    export const fastSpeed = 2.5; // a higher value like `3` is more likely to cause `Audio/Video desynchronisation`
-    export const slowSpeed = 0.5;
+    type Opts = {
+        [key: string]: number;
+    };
+    export const opts: Opts = {
+        fastSpeed: 2.5, // a higher value like `3` is more likely to cause `Audio/Video desynchronisation`
+        slowSpeed: 0.5,
+    };
+
+    mp.options.read_options(opts, mp.get_script_name());
 }
 
 namespace SpeedPlayback {
@@ -15,9 +22,10 @@ namespace SpeedPlayback {
     }
 
     type Input = {
-        event?: string;
-        is_mouse?: boolean;
+        event?: "down" | "repeat" | "up" | "press";
+        is_mouse: boolean;
         key_name?: string;
+        key_text?: string;
     };
 
     export function make(speed: number) {
@@ -51,7 +59,7 @@ namespace SpeedPlayback {
 mp.add_key_binding(
     "=",
     "hold-accelerate@fast",
-    SpeedPlayback.make(Config.fastSpeed),
+    SpeedPlayback.make(Config.opts.fastSpeed),
     {
         complex: true,
         repeatable: false,
@@ -60,7 +68,7 @@ mp.add_key_binding(
 mp.add_key_binding(
     "-",
     "hold-accelerate@slow",
-    SpeedPlayback.make(Config.slowSpeed),
+    SpeedPlayback.make(Config.opts.slowSpeed),
     {
         complex: true,
         repeatable: false,
