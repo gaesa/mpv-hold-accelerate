@@ -9,11 +9,11 @@ namespace Config {
 }
 
 namespace SpeedPlayback {
-    interface Input {
+    type Input = {
         event?: string;
         is_mouse?: boolean;
         key_name?: string;
-    }
+    };
 
     function showSpeed(speed: number) {
         mp.osd_message(`▶▶ x${speed.toFixed(1)}`, Config.osdDuration);
