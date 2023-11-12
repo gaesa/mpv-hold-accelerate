@@ -36,6 +36,14 @@ LEFT script-binding hold-accelerate@slow
 RIGHT script-binding hold-accelerate@fast
 ```
 
+You can also change the default temporary speed, as shown below:
+
+```
+# ~/.config/mpv/script-opts/hold_accelerate.conf
+fastSpeed=2
+slowSpeed=0.25
+```
+
 ## Improvements Over [ Original Lua Implementation ](https://github.com/Ciacconas/mpv-scripts/blob/master/hold_accelerate.lua)
 
 - **Speed Reversion**: The playback speed can adaptively adjust back to its previous state instead of being set to `1.0`, a value hardcoded in the original implementation.
