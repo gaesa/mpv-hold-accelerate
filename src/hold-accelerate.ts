@@ -3,7 +3,7 @@ namespace Config {
         [key: string]: number;
     };
     export const opts: Opts = {
-        fastSpeed: 2.5, // a higher value like `3` is more likely to cause `Audio/Video desynchronisation`
+        fastSpeed: 2.5, // a higher value like `3` is more likely to cause stuck frames when the player returns to its original speed and `Audio/Video desynchronisation`
         slowSpeed: 0.5,
     };
 
