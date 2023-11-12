@@ -1,2 +1,2 @@
-declare var mp: any;
-declare var dump: (arg: any) => void;
+declare const mp: any;
+declare const dump: (arg: any) => void;
