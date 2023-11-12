@@ -21,7 +21,7 @@ namespace SpeedPlayback {
 
     export function make(speed: number) {
         return (table: Input): void => {
-            if (table.event === "down" || table.event === "repeat") {
+            if (table.event === "down") {
                 isPlaying = true;
                 mp.set_property("speed", speed);
                 showSpeed(speed);
