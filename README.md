@@ -44,7 +44,7 @@ fastSpeed=2
 slowSpeed=0.25
 ```
 
-## Improvements Over [ Original Lua Implementation ](https://github.com/Ciacconas/mpv-scripts/blob/master/hold_accelerate.lua)
+## Improvements Over [Ciacconas/mpv-scripts](https://github.com/Ciacconas/mpv-scripts/blob/master/hold_accelerate.lua)
 
 - **Speed Reversion**: The playback speed can adaptively adjust back to its previous state instead of being set to `1.0`, a value hardcoded in the original implementation.
 - **Improved Keybinding Management**: Unlike the original lua implementation which uses `mp.add_forced_key_binding` that could overwrite user’s custom keybindings, this implementation uses `mp.add_key_binding` which respects user’s custom keybindings.
