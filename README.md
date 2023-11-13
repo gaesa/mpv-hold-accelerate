@@ -56,8 +56,14 @@ To enable speed transition animation, set `animation=yes`. By default, this opti
 
 The phenomenon you’re observing is largely due to the way video playback works and the limitations of frame rates. When you slow down a video, the frames are stretched over a longer period of time. If there aren’t enough frames to fill these gaps, some frames may be displayed for longer than intended, resulting in “freeze frames”. Although the current program uses a method of step-by-step adjustment of the video playback speed to mitigate this issue, the effect can still be very noticeable, especially if you have enabled the `interpolation` in `~/.config/mpv/mpv.conf`. To reduce the visibility of these freeze frames, you can comment out the `interpolation` line in the mpv configuration file. This will disable interpolation and may provide a smoother viewing experience when changing the playback speed to a slower rate.
 
-## Improvements Over [Ciacconas/mpv-scripts](https://github.com/Ciacconas/mpv-scripts/blob/master/hold_accelerate.lua)
+## Motivation
 
-- **Speed Reversion**: The playback speed can adaptively adjust back to its previous state instead of being set to `1.0`, a value hardcoded in the original implementation.
-- **Improved Keybinding Management**: Unlike the original lua implementation which uses `mp.add_forced_key_binding` that could overwrite user’s custom keybindings, this implementation uses `mp.add_key_binding` which respects user’s custom keybindings.
-- **Modularity**: The code is more modular, it uses separate namespaces and a high-level function which is used to create different functions which set different playback speeds, making it easier to maintain and extend. This allows for better organization and scalability of the code.
+The idea for this project was sparked by a [topic](https://bgm.tv/group/topic/369996) on Bangumi. This led me to a [Reddit discussion](https://www.reddit.com/r/mpv/comments/skf78w/is_there_a_way_to_customize_so_that_video_play_at/) and eventually to the [Ciacconas/mpv-scripts](https://github.com/Ciacconas/mpv-scripts/blob/master/hold_accelerate.lua). But I found some aspects of its implementation unsatisfactory, such as the overwriting of user's custom keybindings and the disregard for previous speed values. This motivated me to create my own version.
+
+## Improvements
+
+- **Speed Reversion**: The playback speed intelligently reverts to its previous state, rather than defaulting to a hardcoded `1.0` value.
+- **Improved Keybinding Management**: This version respects user’s custom keybindings, unlike the original implementation which could overwrite them.
+- **Smooth Transition**: This feature mitigates the "freeze frames" issue when slowing down the playback speed.
+- **Always-On Speed Display**: Speed indicator remains visible when the key is held down, providing continuous visual feedback.
+- **Modularity**: The code is highly modular with separate namespaces and high-level functions. This design makes it easier to maintain and extend. The program dynamically creates different function objects based on values and user configuration, demonstrating effective use of abstraction.
