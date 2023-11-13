@@ -50,7 +50,7 @@ slowSpeed=0.25
 
 ### Why do I see freeze frames when I reduce the speed of video playback?
 
-The phenomenon you’re observing is largely due to the way video playback works and the limitations of frame rates. When you slow down a video, the frames are stretched over a longer period of time. If there aren’t enough frames to fill these gaps, some frames may be displayed for longer than intended, resulting in “freeze frames”. This effect can be more noticeable if you have enabled the `interpolation` in `~/.config/mpv/mpv.conf`, this can be more noticeable. To reduce the visibility of these freeze frames, you can comment out the `interpolation` line in the mpv configuration file. This will disable interpolation and may provide a smoother viewing experience when changing the playback speed to a slower rate.
+The phenomenon you’re observing is largely due to the way video playback works and the limitations of frame rates. When you slow down a video, the frames are stretched over a longer period of time. If there aren’t enough frames to fill these gaps, some frames may be displayed for longer than intended, resulting in “freeze frames”. Although the current program uses a method of step-by-step adjustment of the video playback speed to mitigate this issue, the effect can still be very noticeable, especially if you have enabled the `interpolation` in `~/.config/mpv/mpv.conf`. To reduce the visibility of these freeze frames, you can comment out the `interpolation` line in the mpv configuration file. This will disable interpolation and may provide a smoother viewing experience when changing the playback speed to a slower rate.
 
 ## Improvements Over [Ciacconas/mpv-scripts](https://github.com/Ciacconas/mpv-scripts/blob/master/hold_accelerate.lua)
 
