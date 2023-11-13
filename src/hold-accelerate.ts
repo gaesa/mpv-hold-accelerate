@@ -36,7 +36,7 @@ namespace SpeedPlayback {
     }
 
     type Input = {
-        event?: "down" | "repeat" | "up" | "press";
+        event: "down" | "repeat" | "up" | "press";
         is_mouse: boolean;
         key_name?: string;
         key_text?: string;
