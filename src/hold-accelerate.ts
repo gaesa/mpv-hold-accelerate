@@ -30,6 +30,39 @@ function setSpeed(speed: number) {
     mp.set_property("speed", speed);
 }
 
+function smoothTransition(
+    target: number,
+    delta: number,
+    interval: number,
+    postFn?: () => void,
+) {
+    function adjust() {
+        const current = getSpeed();
+        const currentTarget = current + delta;
+        if (compare(currentTarget, target)) {
+            setSpeed(target);
+            postFn !== void 0 ? postFn() : void 0;
+            clearInterval(timer);
+        } else {
+            setSpeed(currentTarget);
+        }
+    }
+
+    let compare: (a: number, b: number) => boolean;
+    if (delta < 0) {
+        compare = (a, b) => {
+            return a < b;
+        };
+    } else if (delta > 0) {
+        compare = (a, b) => {
+            return a > b;
+        };
+    } else {
+        throw new Error("Invalid input: Delta must be a non-zero number");
+    }
+    const timer = setInterval(adjust, interval);
+}
+
 namespace SpeedPlayback {
     namespace Opts {
         const decayDelay = 0.05;
@@ -37,6 +70,8 @@ namespace SpeedPlayback {
             decayDelay,
             mp.get_property_native("osd-duration", 1000) / 1000,
         );
+        export const speedDelta = -0.05; // negative because it's only needed for slowing down speed
+        export const timerInterval = 15; // in miliseconds
     }
 
     function showSpeed(speed: number) {
@@ -50,30 +85,63 @@ namespace SpeedPlayback {
         key_text?: string;
     };
 
-    export function make(speed: number) {
+    function adjustSpeed(target: number, postFn?: () => void) {
+        smoothTransition(target, Opts.speedDelta, Opts.timerInterval, postFn);
+    }
+
+    export function make(target: number) {
+        let activate: () => void;
+        let deactivate: () => void;
+
+        if (state.prevSpeed < target) {
+            activate = () => {
+                state.isChanged = true;
+                setSpeed(target);
+                showSpeed(target);
+            };
+            deactivate = () => {
+                adjustSpeed(state.prevSpeed, () => {
+                    showSpeed(state.prevSpeed);
+                    state.isChanged = false;
+                });
+            };
+        } else if (state.prevSpeed > target) {
+            activate = () => {
+                state.isChanged = true;
+                adjustSpeed(target, () => {
+                    showSpeed(target);
+                });
+            };
+            deactivate = () => {
+                setSpeed(state.prevSpeed);
+                showSpeed(state.prevSpeed);
+                state.isChanged = false;
+            };
+        } else {
+            throw new Error("Target speed can't be the same as current speed.");
+        }
+
         return (table: Input): void => {
             if (table.event === "down") {
-                isChanged = true;
-                setSpeed(speed);
-                showSpeed(speed);
+                activate();
             } else if (table.event === "up") {
-                setSpeed(prevSpeed);
-                showSpeed(prevSpeed);
-                isChanged = false;
+                deactivate();
             } else {
                 return;
             }
         };
     }
 
-    let prevSpeed = getSpeed();
-    let isChanged = false;
+    const state = {
+        prevSpeed: getSpeed(),
+        isChanged: false,
+    };
 
     mp.observe_property("speed", "number", (_: string, value: number) => {
-        if (isChanged) {
+        if (state.isChanged) {
             return;
         } else {
-            prevSpeed = value;
+            state.prevSpeed = value;
         }
     });
 }
