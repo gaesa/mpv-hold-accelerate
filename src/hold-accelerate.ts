@@ -2,18 +2,21 @@ const msg = mp.msg;
 
 namespace Config {
     type Opts = {
-        [key: string]: number;
+        fastSpeed: number;
+        slowSpeed: number;
+        animation: false;
     };
     export const opts: Opts = {
         fastSpeed: 2.5, // a higher value like `3` is more likely to cause `Audio/Video desynchronisation`
         slowSpeed: 0.5,
+        animation: false,
     };
 
     mp.options.read_options(opts, mp.get_script_name());
-    Object.keys(opts).forEach((key) => {
+    [opts.fastSpeed, opts.slowSpeed].forEach((speed: number) => {
         // https://man.archlinux.org/man/mpv.1#scaletempo2_=option1:option2:..._
         // https://man.archlinux.org/man/mpv.1#sub~9
-        if (opts[key] > 4 || opts[key] < 0.25) {
+        if (speed > 4 || speed < 0.25) {
             msg.warn(
                 "Warning: The playback speed is outside the typical range.",
                 "The audio will be muted if the speed is below 0.25 or above 4.0",
@@ -74,9 +77,31 @@ namespace SpeedPlayback {
         export const timerInterval = 15; // in miliseconds
     }
 
-    function showSpeed(speed: number) {
+    function showSpeedOnce(speed: number) {
         mp.osd_message(`▶▶ x${speed.toFixed(1)}`, Opts.osdDuration);
     }
+
+    function genShowSpeed(
+        showSpeed: (speed: number) => void,
+        interval: number,
+    ) {
+        return (speed: number) => {
+            showSpeedOnce(speed);
+            const timer = setInterval(() => {
+                if (state.isChanged) {
+                    showSpeed(speed);
+                } else {
+                    clearInterval(timer);
+                }
+            }, interval);
+        };
+    }
+
+    const showSpeed = Config.opts.animation
+        ? genShowSpeed((_) => {
+              showSpeedOnce(getSpeed());
+          }, Opts.timerInterval * 2)
+        : genShowSpeed(showSpeedOnce, Opts.osdDuration);
 
     type Input = {
         event: "down" | "repeat" | "up" | "press";
@@ -97,24 +122,23 @@ namespace SpeedPlayback {
             activate = () => {
                 state.isChanged = true;
                 setSpeed(target);
-                showSpeed(target);
+                showSpeedOnce(target);
             };
             deactivate = () => {
                 adjustSpeed(state.prevSpeed, () => {
-                    showSpeed(state.prevSpeed);
                     state.isChanged = false;
                 });
+                showSpeed(state.prevSpeed);
             };
         } else if (state.prevSpeed > target) {
             activate = () => {
                 state.isChanged = true;
-                adjustSpeed(target, () => {
-                    showSpeed(target);
-                });
+                adjustSpeed(target);
+                showSpeed(target);
             };
             deactivate = () => {
                 setSpeed(state.prevSpeed);
-                showSpeed(state.prevSpeed);
+                showSpeedOnce(state.prevSpeed);
                 state.isChanged = false;
             };
         } else {
