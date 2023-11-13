@@ -22,6 +22,14 @@ namespace Config {
     });
 }
 
+function getSpeed(): number {
+    return mp.get_property_native("speed");
+}
+
+function setSpeed(speed: number) {
+    mp.set_property("speed", speed);
+}
+
 namespace SpeedPlayback {
     namespace Opts {
         const decayDelay = 0.05;
@@ -46,10 +54,10 @@ namespace SpeedPlayback {
         return (table: Input): void => {
             if (table.event === "down") {
                 isPlaying = true;
-                mp.set_property("speed", speed);
+                setSpeed(speed);
                 showSpeed(speed);
             } else if (table.event === "up") {
-                mp.set_property("speed", prevSpeed);
+                setSpeed(prevSpeed);
                 showSpeed(prevSpeed);
                 isPlaying = false;
             } else {
@@ -58,7 +66,7 @@ namespace SpeedPlayback {
         };
     }
 
-    let prevSpeed: number = mp.get_property_native("speed", 1);
+    let prevSpeed = getSpeed();
     let isPlaying = false;
 
     mp.observe_property("speed", "number", (_: string, value: number) => {
