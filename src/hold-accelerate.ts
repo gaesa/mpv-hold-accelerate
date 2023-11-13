@@ -53,13 +53,13 @@ namespace SpeedPlayback {
     export function make(speed: number) {
         return (table: Input): void => {
             if (table.event === "down") {
-                isPlaying = true;
+                isChanged = true;
                 setSpeed(speed);
                 showSpeed(speed);
             } else if (table.event === "up") {
                 setSpeed(prevSpeed);
                 showSpeed(prevSpeed);
-                isPlaying = false;
+                isChanged = false;
             } else {
                 return;
             }
@@ -67,10 +67,10 @@ namespace SpeedPlayback {
     }
 
     let prevSpeed = getSpeed();
-    let isPlaying = false;
+    let isChanged = false;
 
     mp.observe_property("speed", "number", (_: string, value: number) => {
-        if (isPlaying) {
+        if (isChanged) {
             return;
         } else {
             prevSpeed = value;
