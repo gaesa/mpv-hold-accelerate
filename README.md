@@ -36,13 +36,17 @@ LEFT script-binding hold-accelerate@slow
 RIGHT script-binding hold-accelerate@fast
 ```
 
-You can also change the default temporary speed, as shown below:
+## Configuration
+
+You can change the default temporary speed, as shown below:
 
 ```
 # ~/.config/mpv/script-opts/hold_accelerate.conf
 fastSpeed=2
 slowSpeed=0.25
 ```
+
+To enable speed transition animation, set `animation=yes`. By default, this option is set to `no`.
 
 ## FAQ
 
