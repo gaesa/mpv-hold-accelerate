@@ -132,7 +132,6 @@ namespace SpeedPlayback {
                 return;
             }
         }
-
         checkInput();
 
         const [activate, deactivate] =
@@ -163,7 +162,7 @@ namespace SpeedPlayback {
                       },
                   ];
 
-        return (table: Input): void => {
+        return (table: Input) => {
             if (table.event === "down") {
                 activate();
             } else if (table.event === "up") {
