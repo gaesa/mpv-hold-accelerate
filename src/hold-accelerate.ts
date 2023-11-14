@@ -141,7 +141,7 @@ namespace SpeedPlayback {
                       () => {
                           state.isChanged = true;
                           setSpeed(target);
-                          showSpeedOnce(target);
+                          showSpeed(target);
                       },
                       () => {
                           adjustSpeed(state.prevSpeed, () => {
