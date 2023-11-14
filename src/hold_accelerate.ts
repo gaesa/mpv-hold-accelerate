@@ -101,6 +101,7 @@ namespace SpeedPlayback {
                     clearInterval(timer);
                 }
             }, interval);
+            return timer;
         };
     }
 
@@ -140,7 +141,7 @@ namespace SpeedPlayback {
                       () => {
                           state.isChanged = true;
                           setSpeed(target);
-                          showSpeed(target);
+                          state.timer = showSpeed(target);
                       },
                       () => {
                           adjustSpeed(state.prevSpeed, () => {
@@ -153,7 +154,7 @@ namespace SpeedPlayback {
                       () => {
                           state.isChanged = true;
                           adjustSpeed(target);
-                          showSpeed(target);
+                          state.timer = showSpeed(target);
                       },
                       () => {
                           setSpeed(state.prevSpeed);
@@ -166,6 +167,7 @@ namespace SpeedPlayback {
             if (table.event === "down") {
                 activate();
             } else if (table.event === "up") {
+                clearInterval(state.timer);
                 deactivate();
             } else {
                 return;
@@ -176,6 +178,7 @@ namespace SpeedPlayback {
     const state = {
         prevSpeed: getSpeed(),
         isChanged: false,
+        timer: setTimeout(() => {}),
     };
 
     mp.observe_property("speed", "number", (_: string, value: number) => {
