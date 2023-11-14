@@ -67,3 +67,13 @@ The idea for this project was sparked by a [topic](https://bgm.tv/group/topic/36
 - **Smooth Transition**: This feature mitigates the "freeze frames" issue when slowing down the playback speed.
 - **Always-On Speed Display**: Speed indicator remains visible when the key is held down, providing continuous visual feedback.
 - **Modularity**: The code is highly modular with separate namespaces and high-level functions. This design makes it easier to maintain and extend. The program dynamically creates different function objects based on values and user configuration, demonstrating effective use of abstraction.
+
+## Known Limitations
+
+Please be aware that if you press multiple keys simultaneously that are bound to `hold-accelerate@fast` or `hold-accelerate@slow`, it may result in unpredictable behavior.
+
+I attempted to mitigate this issue by implementing an array to track the pressed keys, aiming to share this array across different functions. However, this approach was unsuccessful because the lexical scope didn’t function fully as expected. You can see this attempt in this [branch](../../tree/fix-concurrent).
+
+Consequently, I advise users to refrain from pressing multiple related keys at the same time to avoid any unexpected behavior. This is a recognized limitation in the current version of the program, and I am actively seeking a solution.
+
+Any suggestions or contributions towards resolving this issue are welcome.
