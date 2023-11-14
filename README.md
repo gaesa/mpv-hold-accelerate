@@ -26,7 +26,7 @@ cp dist/hold_accelerate.js ~/.config/mpv/scripts
 
 ## Usage
 
-By default, the `=` key is assigned to the `fastPlay`, which temporarily increases the playback speed to `2.0`. Conversely, the `-` key is assigned to the `slowPlay`, which temporarily reduces the playback speed to `0.5`. Refer to the [FAQ](#why-do-i-see-freeze-frames-when-i-reduce-the-speed-of-video-playback%3F) for an explanation on why these values are chosen as the default.
+By default, the `=` key is assigned to the `fastPlay`, which temporarily increases the playback speed to `2.0`. Conversely, the `-` key is assigned to the `slowPlay`, which temporarily reduces the playback speed to `0.5`. Refer to the [FAQ](#why-do-i-see-freeze-frames-when-i-reduce-the-speed-of-video-playback) for an explanation on why these values are chosen as the default.
 
 You can overwrite these keybindings, and add your own keybindings, as shown in the example below:
 
