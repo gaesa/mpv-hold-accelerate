@@ -44,7 +44,7 @@ You can change the default temporary speed, as shown below:
 
 ```
 # ~/.config/mpv/script-opts/hold_accelerate.conf
-fastSpeed=2
+fastSpeed=2.5
 slowSpeed=0.25
 ```
 
