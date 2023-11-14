@@ -34,41 +34,25 @@ function setSpeed(speed: number) {
 }
 
 function smoothTransition(
-    target: number,
     delta: number,
     interval: number,
-    postFn?: () => void,
+    compare: (a: number, b: number) => boolean,
 ) {
-    function checkInput() {
-        if (delta === 0) {
-            throw new Error("Invalid input: Delta must be a non-zero number");
-        } else {
-            return;
+    return (target: number, postFn?: () => void) => {
+        function adjust() {
+            const current = getSpeed();
+            const currentTarget = current + delta;
+            if (compare(currentTarget, target)) {
+                clearInterval(timer);
+                setSpeed(target);
+                postFn !== void 0 ? postFn() : void 0;
+            } else {
+                setSpeed(currentTarget);
+            }
         }
-    }
 
-    function adjust() {
-        const current = getSpeed();
-        const currentTarget = current + delta;
-        if (compare(currentTarget, target)) {
-            setSpeed(target);
-            postFn !== void 0 ? postFn() : void 0;
-            clearInterval(timer);
-        } else {
-            setSpeed(currentTarget);
-        }
-    }
-
-    checkInput();
-    const compare: (a: number, b: number) => boolean =
-        delta < 0
-            ? (a, b) => {
-                  return a < b;
-              }
-            : (a, b) => {
-                  return a > b;
-              };
-    const timer = setInterval(adjust, interval);
+        const timer = setInterval(adjust, interval);
+    };
 }
 
 namespace SpeedPlayback {
@@ -87,6 +71,17 @@ namespace SpeedPlayback {
         );
         export const speedDelta = -0.05; // negative because it's only needed for slowing down speed
         export const timerInterval = 15; // in miliseconds
+
+        function checkInput(delta: number) {
+            if (delta === 0) {
+                throw new Error(
+                    "Invalid input: Delta must be a non-zero number",
+                );
+            } else {
+                return;
+            }
+        }
+        checkInput(speedDelta);
     }
 
     function showSpeedOnce(speed: number) {
@@ -115,9 +110,17 @@ namespace SpeedPlayback {
           }, Opts.timerInterval * 2)
         : genShowSpeed(showSpeedOnce, Opts.osdDuration);
 
-    function adjustSpeed(target: number, postFn?: () => void) {
-        smoothTransition(target, Opts.speedDelta, Opts.timerInterval, postFn);
-    }
+    const adjustSpeed = smoothTransition(
+        Opts.speedDelta,
+        Opts.timerInterval,
+        Opts.speedDelta < 0
+            ? (a, b) => {
+                  return a < b;
+              }
+            : (a, b) => {
+                  return a < b;
+              },
+    );
 
     export function make(target: number) {
         function checkInput() {
