@@ -187,21 +187,11 @@ namespace SpeedPlayback {
     });
 }
 
-mp.add_key_binding(
-    "=",
-    "hold-accelerate@fast",
-    SpeedPlayback.make(Config.opts.fastSpeed),
-    {
-        complex: true,
-        repeatable: false,
-    },
-);
-mp.add_key_binding(
-    "-",
-    "hold-accelerate@slow",
-    SpeedPlayback.make(Config.opts.slowSpeed),
-    {
-        complex: true,
-        repeatable: false,
-    },
-);
+mp.add_key_binding("=", "fastPlay", SpeedPlayback.make(Config.opts.fastSpeed), {
+    complex: true,
+    repeatable: false,
+});
+mp.add_key_binding("-", "slowPlay", SpeedPlayback.make(Config.opts.slowSpeed), {
+    complex: true,
+    repeatable: false,
+});

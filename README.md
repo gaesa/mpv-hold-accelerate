@@ -26,14 +26,14 @@ cp dist/hold-accelerate.js ~/.config/mpv/scripts
 
 ## Usage
 
-By default, the `=` key is assigned to the `hold-accelerate@fast`, which temporarily increases the playback speed to `2.5`. Conversely, the `-` key is assigned to the `hold-accelerate@slow`, which temporarily reduces the playback speed to `0.5`. You can overwrite these keybindings, and add your own keybindings, as shown in the example below:
+By default, the `=` key is assigned to the `fastPlay`, which temporarily increases the playback speed to `2.5`. Conversely, the `-` key is assigned to the `slowPlay`, which temporarily reduces the playback speed to `0.5`. You can overwrite these keybindings, and add your own keybindings, as shown in the example below:
 
 ```
 # ~/.config/mpv/input.conf
 - ignore
 = ignore
-LEFT script-binding hold-accelerate@slow
-RIGHT script-binding hold-accelerate@fast
+LEFT script-binding hold_accelerate/fastPlay
+RIGHT script-binding hold_accelerate/slowPlay
 ```
 
 ## Configuration
@@ -70,7 +70,7 @@ The idea for this project was sparked by a [topic](https://bgm.tv/group/topic/36
 
 ## Known Limitations
 
-Please be aware that if you press multiple keys simultaneously that are bound to `hold-accelerate@fast` or `hold-accelerate@slow`, it may result in unpredictable behavior.
+Please be aware that if you press multiple keys simultaneously that are bound to `fastPlay` or `slowPlay`, it may result in unpredictable behavior.
 
 I attempted to mitigate this issue by implementing an array to track the pressed keys, aiming to share this array across different functions. However, this approach was unsuccessful because the lexical scope didn’t function fully as expected. You can see this attempt in this [branch](../../tree/fix-concurrent).
 
