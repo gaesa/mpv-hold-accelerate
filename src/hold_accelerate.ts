@@ -7,7 +7,7 @@ namespace Config {
         animation: boolean;
     };
     export const opts: Opts = {
-        fastSpeed: 2.5, // a higher value like `3` is more likely to cause `Audio/Video desynchronisation`
+        fastSpeed: 2.0, // A higher value may cause issues, refer to the README for more details.
         slowSpeed: 0.5,
         animation: false,
     };
