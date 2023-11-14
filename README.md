@@ -26,7 +26,9 @@ cp dist/hold_accelerate.js ~/.config/mpv/scripts
 
 ## Usage
 
-By default, the `=` key is assigned to the `fastPlay`, which temporarily increases the playback speed to `2.5`. Conversely, the `-` key is assigned to the `slowPlay`, which temporarily reduces the playback speed to `0.5`. You can overwrite these keybindings, and add your own keybindings, as shown in the example below:
+By default, the `=` key is assigned to the `fastPlay`, which temporarily increases the playback speed to `2.0`. Conversely, the `-` key is assigned to the `slowPlay`, which temporarily reduces the playback speed to `0.5`. Refer to the [FAQ](#why-do-i-see-freeze-frames-when-i-reduce-the-speed-of-video-playback%3F) for an explanation on why these values are chosen as the default.
+
+You can overwrite these keybindings, and add your own keybindings, as shown in the example below:
 
 ```
 # ~/.config/mpv/input.conf
@@ -54,7 +56,11 @@ To enable speed transition animation, set `animation=yes`. By default, this opti
 
 ### Why do I see freeze frames when I reduce the speed of video playback?
 
-The phenomenon you’re observing is largely due to the way video playback works and the limitations of frame rates. When you slow down a video, the frames are stretched over a longer period of time. If there aren’t enough frames to fill these gaps, some frames may be displayed for longer than intended, resulting in “freeze frames”. Although the current program uses a method of step-by-step adjustment of the video playback speed to mitigate this issue, the effect can still be very noticeable, especially if you have enabled the `interpolation` in `~/.config/mpv/mpv.conf`. To reduce the visibility of these freeze frames, you can comment out the `interpolation` line in the mpv configuration file. This will disable interpolation and may provide a smoother viewing experience when changing the playback speed to a slower rate.
+The phenomenon of “freeze frames” during video playback is primarily due to the way videos are played back and the limitations of frame rates. When a video is slowed down, the frames are stretched over a longer period of time. If there aren’t enough frames to fill these gaps, some frames may be displayed for longer than intended, resulting in “freeze frames”.
+
+The visibility of this issue tends to increase with the magnitude of speed changes. Therefore, reducing `fastSpeed` to a smaller value can help alleviate this issue. This is the reason why `2.5` or `3` were not chosen as the default value for `fastSpeed`. It’s also worth noting that higher speeds are more likely to cause `Audio/Video desynchronisation`.
+
+Despite these challenges, the current program uses a step-by-step adjustment method for video playback speed to mitigate this issue. However, the “freeze frames” effect can still be quite noticeable when the `interpolation` is enabled in `~/.config/mpv/mpv.conf`. To reduce the visibility of these freeze frames, consider commenting out the `interpolation` line in the mpv configuration file. Doing so disables interpolation and may lead to a smoother viewing experience when the playback speed is reduced.
 
 ## Motivation
 
