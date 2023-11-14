@@ -9,7 +9,7 @@ namespace Config {
     export const opts: Opts = {
         fastSpeed: 2.5, // a higher value like `3` is more likely to cause `Audio/Video desynchronisation`
         slowSpeed: 0.5,
-        animation: true,
+        animation: false,
     };
 
     mp.options.read_options(opts, mp.get_script_name());
