@@ -46,7 +46,7 @@ fastSpeed=2
 slowSpeed=0.25
 ```
 
-To enable speed transition animation, set `animation=yes`. By default, this option is set to `no`.
+To disable speed transition animation, set `animation=no`. By default, this option is set to `yes`.
 
 ## FAQ
 
