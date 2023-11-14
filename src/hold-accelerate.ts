@@ -80,7 +80,7 @@ namespace SpeedPlayback {
     };
 
     namespace Opts {
-        const decayDelay = 0.05;
+        const decayDelay = 0.15;
         export const osdDuration = Math.max(
             decayDelay,
             mp.get_property_native("osd-duration", 1000) / 1000,
