@@ -12,8 +12,8 @@ No special requirements for this project.
 
 ### Direct Download
 
-1. Download the **latest** version of `hold-accelerate.js` from the _Releases_.
-2. Move the downloaded `hold-accelerate.js` to your mpv scripts folder.
+1. Download the **latest** version of `hold_accelerate.js` from the _Releases_.
+2. Move the downloaded `hold_accelerate.js` to your mpv scripts folder.
 
 ### Building from source
 
@@ -21,7 +21,7 @@ No special requirements for this project.
 git clone https://github.com/gaesa/mpv-hold-accelerate
 cd mpv-hold-accelerate
 npm ci && npm run build
-cp dist/hold-accelerate.js ~/.config/mpv/scripts
+cp dist/hold_accelerate.js ~/.config/mpv/scripts
 ```
 
 ## Usage
