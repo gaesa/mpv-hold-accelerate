@@ -39,6 +39,14 @@ function smoothTransition(
     interval: number,
     postFn?: () => void,
 ) {
+    function checkInput() {
+        if (delta === 0) {
+            throw new Error("Invalid input: Delta must be a non-zero number");
+        } else {
+            return;
+        }
+    }
+
     function adjust() {
         const current = getSpeed();
         const currentTarget = current + delta;
@@ -51,22 +59,26 @@ function smoothTransition(
         }
     }
 
-    let compare: (a: number, b: number) => boolean;
-    if (delta < 0) {
-        compare = (a, b) => {
-            return a < b;
-        };
-    } else if (delta > 0) {
-        compare = (a, b) => {
-            return a > b;
-        };
-    } else {
-        throw new Error("Invalid input: Delta must be a non-zero number");
-    }
+    checkInput();
+    const compare: (a: number, b: number) => boolean =
+        delta < 0
+            ? (a, b) => {
+                  return a < b;
+              }
+            : (a, b) => {
+                  return a > b;
+              };
     const timer = setInterval(adjust, interval);
 }
 
 namespace SpeedPlayback {
+    type Input = {
+        event: "down" | "repeat" | "up" | "press";
+        is_mouse: boolean;
+        key_name?: string;
+        key_text?: string;
+    };
+
     namespace Opts {
         const decayDelay = 0.05;
         export const osdDuration = Math.max(
@@ -103,47 +115,50 @@ namespace SpeedPlayback {
           }, Opts.timerInterval * 2)
         : genShowSpeed(showSpeedOnce, Opts.osdDuration);
 
-    type Input = {
-        event: "down" | "repeat" | "up" | "press";
-        is_mouse: boolean;
-        key_name?: string;
-        key_text?: string;
-    };
-
     function adjustSpeed(target: number, postFn?: () => void) {
         smoothTransition(target, Opts.speedDelta, Opts.timerInterval, postFn);
     }
 
     export function make(target: number) {
-        let activate: () => void;
-        let deactivate: () => void;
-
-        if (state.prevSpeed < target) {
-            activate = () => {
-                state.isChanged = true;
-                setSpeed(target);
-                showSpeedOnce(target);
-            };
-            deactivate = () => {
-                adjustSpeed(state.prevSpeed, () => {
-                    state.isChanged = false;
-                });
-                showSpeed(state.prevSpeed);
-            };
-        } else if (state.prevSpeed > target) {
-            activate = () => {
-                state.isChanged = true;
-                adjustSpeed(target);
-                showSpeed(target);
-            };
-            deactivate = () => {
-                setSpeed(state.prevSpeed);
-                showSpeedOnce(state.prevSpeed);
-                state.isChanged = false;
-            };
-        } else {
-            throw new Error("Target speed can't be the same as current speed.");
+        function checkInput() {
+            if (state.prevSpeed === target) {
+                throw new Error(
+                    "Invalid input: Target speed can't be the same as current speed.",
+                );
+            } else {
+                return;
+            }
         }
+
+        checkInput();
+
+        const [activate, deactivate] =
+            state.prevSpeed < target
+                ? [
+                      () => {
+                          state.isChanged = true;
+                          setSpeed(target);
+                          showSpeedOnce(target);
+                      },
+                      () => {
+                          adjustSpeed(state.prevSpeed, () => {
+                              state.isChanged = false;
+                          });
+                          showSpeed(state.prevSpeed);
+                      },
+                  ]
+                : [
+                      () => {
+                          state.isChanged = true;
+                          adjustSpeed(target);
+                          showSpeed(target);
+                      },
+                      () => {
+                          setSpeed(state.prevSpeed);
+                          showSpeedOnce(state.prevSpeed);
+                          state.isChanged = false;
+                      },
+                  ];
 
         return (table: Input): void => {
             if (table.event === "down") {
