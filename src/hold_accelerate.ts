@@ -21,6 +21,8 @@ namespace Config {
                 "Warning: The playback speed is outside the typical range.",
                 "The audio will be muted if the speed is below 0.25 or above 4.0",
             );
+        } else {
+            return;
         }
     });
 }
@@ -178,7 +180,7 @@ namespace SpeedPlayback {
     const state = {
         prevSpeed: getSpeed(),
         isChanged: false,
-        timer: setTimeout(() => {}),
+        timer: setTimeout(() => {}), // for type checker
     };
 
     mp.observe_property("speed", "number", (_: string, value: number) => {
