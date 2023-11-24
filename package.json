@@ -6,6 +6,6 @@
   },
   "scripts": {
     "build:webpack": "webpack",
-    "build": "npm run build:webpack"
+    "build": "pnpm run build:webpack"
   }
 }

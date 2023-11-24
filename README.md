@@ -20,7 +20,7 @@ No special requirements for this project.
 ```shell
 git clone https://github.com/gaesa/mpv-hold-accelerate
 cd mpv-hold-accelerate
-npm ci && npm run build
+pnpm install --frozen-lockfile && pnpm run build
 cp dist/hold_accelerate.js ~/.config/mpv/scripts
 ```
 

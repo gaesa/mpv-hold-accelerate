@@ -8,7 +8,7 @@ on:
       - src/hold-accelerate.ts
       - .github/workflows/publish.yaml
       - package.json
-      - package-lock.json
+      - pnpm-lock.yaml
   workflow_dispatch:
 
 jobs:
