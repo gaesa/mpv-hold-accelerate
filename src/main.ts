@@ -83,6 +83,7 @@ namespace SpeedPlayback {
                 return;
             }
         }
+
         checkInput(speedDelta);
     }
 
@@ -135,6 +136,7 @@ namespace SpeedPlayback {
                 return;
             }
         }
+
         checkInput();
 
         const [activate, deactivate] =
