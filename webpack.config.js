@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
   mode: "production",
   target: ["web", "es5"],
-  entry: "./src/hold_accelerate.ts",
+  entry: "./src/main.ts",
   output: {
     filename: "hold_accelerate.js",
     path: path.resolve(__dirname, "dist"),
