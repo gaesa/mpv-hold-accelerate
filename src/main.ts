@@ -1,12 +1,7 @@
 const msg = mp.msg;
 
 namespace Config {
-    type Opts = {
-        fastSpeed: number;
-        slowSpeed: number;
-        animation: boolean;
-    };
-    export const opts: Opts = {
+    export const opts = {
         fastSpeed: 2.0, // A higher value may cause issues, refer to the README for more details.
         slowSpeed: 0.5,
         animation: false,
