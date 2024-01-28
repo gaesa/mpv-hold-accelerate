@@ -72,7 +72,7 @@ namespace SpeedPlayback {
             mp.get_property_native("osd-duration", 1000) / 1000,
         );
         export const speedDelta = -0.05; // negative because it's only needed for slowing down speed
-        export const timerInterval = 15; // in miliseconds
+        export const timerInterval = 15; // in milliseconds
 
         function checkInput(delta: number) {
             if (delta === 0) {
