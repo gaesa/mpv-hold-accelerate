@@ -23,11 +23,16 @@ namespace Config {
 }
 
 function getSpeed(): number {
-    return mp.get_property_native("speed");
+    const speed = mp.get_property_number("speed");
+    if (speed === void 0) {
+        throw new Error("Can't get the speed value");
+    } else {
+        return speed;
+    }
 }
 
 function setSpeed(speed: number) {
-    mp.set_property("speed", speed);
+    mp.set_property_number("speed", speed);
 }
 
 function smoothTransition(
@@ -53,18 +58,11 @@ function smoothTransition(
 }
 
 namespace SpeedPlayback {
-    type Input = {
-        event: "down" | "repeat" | "up" | "press";
-        is_mouse: boolean;
-        key_name?: string;
-        key_text?: string;
-    };
-
     namespace Opts {
         const decayDelay = 0.15;
         export const osdDuration = Math.max(
             decayDelay,
-            mp.get_property_native("osd-duration", 1000) / 1000,
+            mp.get_property_number("osd-duration", 1000) / 1000,
         );
         export const speedDelta = -0.05; // negative because it's only needed for slowing down speed
         export const timerInterval = 15; // in milliseconds
@@ -162,7 +160,7 @@ namespace SpeedPlayback {
                       },
                   ];
 
-        return (table: Input) => {
+        return (table: mp.UserInputCommand) => {
             if (table.event === "down") {
                 activate();
             } else if (table.event === "up") {
@@ -180,13 +178,17 @@ namespace SpeedPlayback {
         timer: setTimeout(() => {}), // for type checker
     };
 
-    mp.observe_property("speed", "number", (_: string, value: number) => {
-        if (state.isChanged) {
-            return;
-        } else {
-            state.prevSpeed = value;
-        }
-    });
+    mp.observe_property(
+        "speed",
+        "number",
+        (_: string, value: number | undefined) => {
+            if (state.isChanged || value === void 0) {
+                return;
+            } else {
+                state.prevSpeed = value;
+            }
+        },
+    );
 }
 
 mp.add_key_binding("=", "fastPlay", SpeedPlayback.make(Config.opts.fastSpeed), {

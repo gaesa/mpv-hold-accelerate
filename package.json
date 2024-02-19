@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@types/mpv-script": "^0.32.8",
     "ts-loader": "^9.5.1",
     "webpack": "^5.90.1",
     "webpack-cli": "^5.1.4"
