@@ -40,10 +40,10 @@ jobs:
         uses: orhun/git-cliff-action@v3
         id: git-cliff
         with:
-          args: -vv --latest --no-exec --github-repo ${GITHUB_REPOSITORY} --strip=header
+          args: -vv --latest --no-exec --strip=header
 
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@975c1b265e11dd76618af1c374e7981f9a6ff44a
         with:
           tag_name: ${{ env.release_tag }}
           body: ${{ steps.git-cliff.outputs.content }}
