@@ -15,6 +15,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: "recursive"
+          fetch-depth: 0
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
@@ -40,7 +41,7 @@ jobs:
         uses: orhun/git-cliff-action@v3
         id: git-cliff
         with:
-          args: -vv --latest --no-exec --strip=header
+          args: -vv --unreleased --tag=${{ env.release_tag }} --strip=header
 
       - name: Release
         uses: softprops/action-gh-release@975c1b265e11dd76618af1c374e7981f9a6ff44a
