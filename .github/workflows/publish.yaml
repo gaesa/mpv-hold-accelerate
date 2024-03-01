@@ -49,7 +49,7 @@ jobs:
           tag_name: ${{ env.release_tag }}
           body: ${{ steps.git-cliff.outputs.content }}
           files: |
-            dist/hold-accelerate.js
+            dist/hold_accelerate.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
