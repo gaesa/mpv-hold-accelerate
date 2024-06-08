@@ -17,7 +17,7 @@ No special requirements for this project.
 
 ### Building from source
 
-```shell
+```sh
 git clone https://github.com/gaesa/mpv-hold-accelerate
 cd mpv-hold-accelerate
 pnpm install --frozen-lockfile && pnpm run build
