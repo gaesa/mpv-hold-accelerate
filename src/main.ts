@@ -180,7 +180,7 @@ namespace SpeedPlayback {
     const state = {
         prevSpeed: getSpeed(),
         isChanged: false,
-        showSpeedTimer: setTimeout(() => {}), // for type checker
+        showSpeedTimer: setTimeout(() => {}), // simplify timers clearing
         adjustSpeedTimer: setTimeout(() => {}),
     };
 
