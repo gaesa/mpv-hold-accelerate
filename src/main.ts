@@ -54,6 +54,7 @@ function smoothTransition(
         }
 
         const timer = setInterval(adjust, interval);
+        return timer;
     };
 }
 
@@ -138,20 +139,23 @@ namespace SpeedPlayback {
                       () => {
                           state.isChanged = true;
                           setSpeed(target);
-                          state.timer = showSpeed(target);
+                          state.showSpeedTimer = showSpeed(target);
                       },
                       () => {
-                          adjustSpeed(state.prevSpeed, () => {
-                              state.isChanged = false;
-                          });
+                          state.adjustSpeedTimer = adjustSpeed(
+                              state.prevSpeed,
+                              () => {
+                                  state.isChanged = false;
+                              },
+                          );
                           showSpeed(state.prevSpeed);
                       },
                   ]
                 : [
                       () => {
                           state.isChanged = true;
-                          adjustSpeed(target);
-                          state.timer = showSpeed(target);
+                          state.adjustSpeedTimer = adjustSpeed(target);
+                          state.showSpeedTimer = showSpeed(target);
                       },
                       () => {
                           setSpeed(state.prevSpeed);
@@ -164,7 +168,8 @@ namespace SpeedPlayback {
             if (table.event === "down") {
                 activate();
             } else if (table.event === "up") {
-                clearInterval(state.timer);
+                clearInterval(state.adjustSpeedTimer);
+                clearInterval(state.showSpeedTimer);
                 deactivate();
             } else {
                 return;
@@ -175,7 +180,8 @@ namespace SpeedPlayback {
     const state = {
         prevSpeed: getSpeed(),
         isChanged: false,
-        timer: setTimeout(() => {}), // for type checker
+        showSpeedTimer: setTimeout(() => {}), // for type checker
+        adjustSpeedTimer: setTimeout(() => {}),
     };
 
     mp.observe_property(
