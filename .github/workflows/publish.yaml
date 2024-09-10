@@ -38,7 +38,7 @@ jobs:
           echo "release_tag=$(date +%Y.%m.%d)" >> "$GITHUB_ENV"
 
       - name: Generate the changelog
-        uses: orhun/git-cliff-action@01a5c9a9d14d5473ac7e2a66042ab52ca8969fbe # v3
+        uses: orhun/git-cliff-action@9f34d775d33d958da57115f4a2c7cfe9cff4a464 # v3
         id: git-cliff
         with:
           args: -vv --unreleased --tag=${{ env.release_tag }} --strip=header
