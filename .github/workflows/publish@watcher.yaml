@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - src/main.ts
-      - .github/workflows/publish.yaml
-      - package.json
-      - pnpm-lock.yaml
   workflow_dispatch:
 
 jobs:
@@ -16,7 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: update
-        if: ${{ vars.SHOULD_PUBLISH == 'false' }}
+        if: ${{ vars.SHOULD_PUBLISH == 'false' &&
+          (startsWith(github.event.head_commit.message, 'refactor') ||
+          startsWith(github.event.head_commit.message, 'fix') ||
+          startsWith(github.event.head_commit.message, 'feat') ||
+          (startsWith(github.event.head_commit.message, 'chore') && !startsWith(github.event.head_commit.message, 'chore(dev')) && !startsWith(github.event.head_commit.message, 'chore(github')))) }}
         uses: action-pack/set-variable@c745021a3a403ab9cc351b4aabe3e528f22d9937 # v1
         with:
           name: "SHOULD_PUBLISH"
