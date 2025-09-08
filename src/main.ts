@@ -22,6 +22,10 @@ namespace Config {
     });
 }
 
+function isInteger(num: number): boolean {
+    return isFinite(num) && Math.floor(num) === num;
+}
+
 function getSpeed(): number {
     const speed = mp.get_property_number("speed");
     if (speed === void 0) {
@@ -82,7 +86,10 @@ namespace SpeedPlayback {
     }
 
     function showSpeedOnce(speed: number) {
-        mp.osd_message(`▶▶ x${speed.toFixed(1)}`, Opts.osdDuration);
+        mp.osd_message(
+            `▶▶ x${isInteger(speed) ? speed.toFixed(1) : speed}`,
+            Opts.osdDuration,
+        );
     }
 
     function genShowSpeed(
